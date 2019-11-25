@@ -1,29 +1,29 @@
-<?php 
+<?php
 session_start();
 
 if(isset($_REQUEST['logar']))
 {
-    try
+    try 
     {
         include 'includes/conexao.php';
-       
-        $stmt = $conexao->prepare("SELECT * FROM usuarios WHERE usuario = ? AND senha = ? ");
-        $stmt->bindParam(1, $_REQUEST['usuario']);
-        $stmt->bindParam(2, sha1($_REQUEST['senha']));
-        $stmt->execute();
 
-        // caso o usuário seja encontrado no banco de dados...
-        if($stmt->rowcount() > 0) {
-            $dados_usuario = $stmt->fetchObject(); // pega todos os dados de usuário.
+        $stmt = $conexao -> prepare("SELECT * FROM usuarios WHERE usuario = ? AND senha = ? ");
+        $stmt -> bindParam(1, $_REQUEST['usuario']);
+        $stmt -> bindParam(2, sha1($_REQUEST['senha']));
+        $stmt -> execute();
 
-            $_SESSION['gescolar_dados_usuario'] = $dados_usuario; // coloca na variavel de sessão
-        
-            header("Location: index.php"); // redireciona para a página inicial
-        } else {
-            header("Location: login.php/erro=true"); // caso o login der errado
+        // Caso o usuário seja encontrado no banco de dados...
+        if($stmt -> rowCount() > 0) {
+            $dados_usuario = $stmt -> fetchObject(); // Pega todos os dados do usuário.
+
+            $_SESSION['gescolar_dados_usuario'] = $dados_usuario; // Coloca na variavel da sessao.
+            
+            header("Location: index.php"); // Redireciona para a pagina inicial.
+        } else{
+            header("Location: login.php?erro=true"); // Caso login der errado.
         }
     } catch(Exception $e) {
-        echo $e->getMessage();
+        echo $e -> getMessage();
     }
 }
 ?>
@@ -36,13 +36,13 @@ fieldset { width: 15%; margin-top:10%; }
 <fieldset>
     <legend> Login </legend>
 
-    <form method="post" action="login.php?logar=true" >
+    <form method = "post" action="login.php?logar=true" >
         <label>Usuário:
-            <input name ="usuario" type="text" required />
+            <input name ="usuario" type="password" reqired />
         </label>
         <label>Senha:
-            <input name="senha" type="password" required />
+            <input name ="senha" type="password" reqired />
         </label>
         <button type="submit">Entrar</button>
     </form>
-</fieldset>
+</fieldset>        
